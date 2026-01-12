@@ -6,6 +6,25 @@
   flex-wrap wrap
   gap 20px
 
+  .p-tile
+    width calc(16.66% - (100px / 6))
+    min-width calc(16.66% - (100px / 6))
+    margin-bottom 0
+
+  @media only screen and (max-width: 768px)
+    gap 15px
+
+    .p-tile
+      width calc(50% - 7.5px) !important
+      min-width calc(50% - 7.5px) !important
+
+  @media only screen and (max-width: 576px)
+    gap 15px
+
+    .p-tile
+      width calc(50% - 7.5px) !important
+      min-width calc(50% - 7.5px) !important
+
 .p-tile.product-card-new
   margin-bottom 0
   border-radius 12px
@@ -256,6 +275,27 @@
   .discover-area
     width 100%
     gap 20px
+    display flex
+    flex-wrap wrap
+
+    .p-tile
+      width calc(16.66% - (100px / 6))
+      min-width calc(16.66% - (100px / 6))
+      margin-bottom 0
+
+    @media only screen and (max-width: 768px)
+      gap 15px
+
+      .p-tile
+        width calc(50% - 7.5px) !important
+        min-width calc(50% - 7.5px) !important
+
+    @media only screen and (max-width: 576px)
+      gap 15px
+
+      .p-tile
+        width calc(50% - 7.5px) !important
+        min-width calc(50% - 7.5px) !important
 
 //RESPONSIVE
 @media only screen and (max-width: 1400px)

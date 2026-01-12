@@ -73,8 +73,6 @@
                       </span>
                     </div>
 
-                    <div class="devider w-md-100 mtb-15">&nbsp;</div>
-
                     <div v-if="endTime"
                          class="flex sided warning-msg ptb-10 plr-15 mb-15 wrap gap-10"
                     >
@@ -91,6 +89,112 @@
                       </div>
                     </div>
 
+                    <!-- Pricing Section -->
+                    <div class="pricing-section mt-10 mb-10">
+                      <h2 class="price-wrapper mb-5">
+                        <span class="color-deep price">
+                          <price-format :price="productPrice"/>
+                        </span>
+                        <span class="strike-through f-7" v-if="prevPrice">
+                          <price-format :price="prevPrice"/>
+                        </span>
+                      </h2>
+                      <div>
+                        <span v-if="isFreeShipping"
+                              class="mr-5 block color-free"
+                        >
+                          {{ $t('invent.fs') }}
+                        </span>
+
+                        <span v-else class="mr-5 block">
+                          +
+                          <price-format :price="parseInt(shippingPrice)"/>
+                          {{ $t('detailRight.shippingFee') }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Quantity and Action Buttons -->
+                    <div class="action-section mt-10 mb-10">
+                      <div class="start flex gap-10 mb-10 wrap">
+                        <span class="mt-5 mn-w-70x">
+                          {{ $t('detailRight.quantity') }}
+                        </span>
+
+                        <quantity-nav
+                          class="mt-5"
+                          :quantity="cartQuantity"
+                          :product-inventory="selectedInventory"
+                          :max="maxQuantity"
+                          @value-changed="quantityChanged"
+                        />
+
+                        <p v-if="cartError?.inventory"
+                           class="error mb-10"
+                        >
+                          {{cartError.inventory}}
+                        </p>
+                      </div>
+                      <div class="flex gap-10">
+                        <ajax-button
+                          id="add-to-cart"
+                          class="flex-1 primary-btn mtb-10"
+                          :disabled="!statusPublic"
+                          type="button"
+                          :fetching-data="ajaxing"
+                          @clicked="addToCart"
+                          :loading-text="$t('detailRight.adding')"
+                          :text="$t('detailRight.addToCart')"
+                        />
+                        <ajax-button
+                          class="flex-1 outline-btn mtb-10"
+                          :disabled="!statusPublic"
+                          type="button"
+                          color="primary"
+                          :fetching-data="buyingNow"
+                          @clicked="addToCart(true)"
+                          :loading-text="$t('detailRight.buyNow')"
+                          :text="$t('detailRight.buyNow')"
+                        />
+                      </div>
+
+                      <div class="pos-rel inline">
+                        <button
+                          class="clear-height ml--7-5 mtb-10 f-10 semi-bold flex color-deep"
+                          aria-label="submit"
+                          @click.prevent="toggleSecureTrans"
+                          data-ignore="secure-trans"
+                        >
+                          <i
+                            class="no-click icon lock-icon mr-5 opacity-35 dimen-20x"
+                          />
+                          {{ $t('detailRight.secureTransaction') }}
+                        </button>
+                        <pop-over
+                          :title="$t('detailRight.transactionIsSecured')"
+                          v-if="secureTrans"
+                          @close="closeSecureTrans"
+                          class="secure-trans"
+                          elem-id="secure-trans"
+                        >
+                          <template v-slot:content>
+                            <p class="mn-w-350x mn-w-sm-0">
+                              {{ $t('detailRight.secureTransaction') }}
+                              {{ $t('detailRight.secureTransactionMsg') }}
+                            </p>
+                          </template>
+                        </pop-over>
+                      </div>
+
+                      <client-only>
+                        <p class="f-9">
+                          {{ $t('detailRight.arrives') }} :
+                          <span class="color-lite semi-bold">
+                            {{arrivesAt}}
+                          </span>
+                        </p>
+                      </client-only>
+                    </div>
 
                     <h4 class="mb-15 bold"
                         :class="[{'color-success': isInStock}, {'color-danger': !isInStock}]"
@@ -345,7 +449,7 @@
   import {useCommonStore} from "~/store/common";
   import {useDetailStore} from "~/store/detail";
   import {useUserStore} from "~/store/user";
-  import {ref, nextTick, onMounted, watch, onUnmounted} from 'vue'
+  import {ref, computed, nextTick, onMounted, watch, onUnmounted, watchEffect} from 'vue'
   import {useAsyncData} from "nuxt/app";
   import {useLanguageStore} from "~/store/language";
   import {storeToRefs} from "pinia";
@@ -353,6 +457,9 @@
   import {useMetaData} from "~/composables/useMetaData";
   import {useUtils} from "~/composables/useUtils";
   import {useProductHelper} from "~/composables/useProductHelper";
+  import {usePriceHelper} from "~/composables/usePriceHelper";
+  import {useCartHelper} from "~/composables/useCartHelper";
+  import moment from "moment";
 
   definePageMeta({
     middleware: ['common-middleware'],
@@ -423,6 +530,86 @@
 
 
   const {refundable, warranty, getPriceType} = useProductHelper();
+  
+  // Price helper for pricing section
+  const selectedInventoryForPrice = computed(() => selectedInventory.value || {});
+  const {productPrice, prevPrice} = usePriceHelper({product, productInventory: selectedInventoryForPrice});
+  
+  // Shipping price calculation
+  const shippingPlace = computed(() => {
+    const all = shippingRule.value?.find(obj => {
+      return obj.country.toUpperCase() === 'ALL';
+    });
+    if (!all) {
+      let maxPrice = 0
+      let maxObj = 0
+      shippingRule.value?.forEach((obj) => {
+        if (parseFloat(obj.price) > maxPrice) {
+          maxPrice = obj.price;
+          maxObj = obj;
+        }
+      })
+      return maxObj;
+    } else return all;
+  });
+
+  const shippingPrice = computed(() => {
+    return shippingPlace.value?.price || 0
+  });
+
+  const shippingRule = computed(() => {
+    return product.value?.shipping_rule?.shipping_places;
+  });
+
+  const isFreeShipping = computed(() => {
+    return !(parseFloat(shippingPrice.value) > 0)
+  });
+
+  // Arrives date calculation
+  const arrivesAt = computed(() => {
+    const momentDate = moment().add(shippingPlace.value?.day_needed, 'days')
+
+    const day = momentDate.format('ddd').toLowerCase()
+    const mon = momentDate.format('MMM').toLowerCase()
+    const date = momentDate.format('D')
+    return t('date.ddddMMMD', {day: t(`date.${day}`), mon: t(`date.${mon}`), date: date})
+  });
+
+  // Cart helper
+  const cartEmit = (event) => {
+    hasCartError(event);
+  };
+  const selectedInventoryForCart = computed(() => selectedInventory.value || {});
+  const {wishListAction, addToCart, ajaxingWishlist, buyingNow, cartError: cartHelperError, quantity: cartQuantity, ajaxing, wishListed} =
+    useCartHelper({product, productInventory: selectedInventoryForCart, emit: cartEmit});
+
+  const maxQuantity = computed(() => {
+    return parseInt(selectedInventory.value?.quantity || 0);
+  });
+
+  const quantityChanged = (evt) => {
+    cartQuantity.value = evt.value;
+  };
+
+  const secureTrans = ref(false);
+
+  const toggleSecureTrans = () => {
+    secureTrans.value = !secureTrans.value;
+  };
+
+  const closeSecureTrans = () => {
+    secureTrans.value = false;
+  };
+
+  // Merge cart errors
+  watch(cartHelperError, (newError) => {
+    if (newError.inventory) {
+      cartError.value.inventory = newError.inventory;
+    }
+    if (newError.attribute) {
+      cartError.value.attribute = newError.attribute;
+    }
+  }, { deep: true });
 
   const handleIntersection = (entries) => {
     entries.forEach((entry) => {

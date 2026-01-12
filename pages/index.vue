@@ -18,10 +18,6 @@
                     :item-list="featuredCategories"
             />
 
-            <flashSale
-                    :flash-sales="flashSales"
-            />
-
             <product-banner
                     :banner-data="bannerData"
             />
@@ -33,27 +29,10 @@
                     :collection="value"
             />
 
-            <div v-if="productGrid"
-                 class="area home-section grid-product-wrapper">
-
-                <div class="flex sided title">
-                    <h4>{{ productGrid.title }}</h4>
-                    <nuxt-link
-                            class="link"
-                            :to="collectionLink(productGrid)"
-                    >
-                        {{ $t('featured.showAll') }}
-                    </nuxt-link>
-                </div>
-
-                <div class="search-product-tile">
-                    <SearchedProductTile
-                            v-for="(value, index) in productGrid.products"
-                            :key="`prod-${index}`"
-                            :product="value"
-                    />
-                    </div>
-            </div>
+            <products-slider
+                    v-if="productGrid"
+                    :collection="productGrid"
+            />
 
             <banner
                     v-if="banner5"
@@ -122,7 +101,7 @@
     const {getImageURL, collectionLink} = useUtils();
 
     const {
-        featuredCategories, flashSales, collections,
+        featuredCategories, collections,
         featuredBrands, slider, banners, siteFeatures
     } = storeToRefs(homeStore);
 

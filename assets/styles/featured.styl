@@ -2,36 +2,47 @@
 
 .category-wrapper.area
   background none
+  position relative
 
   .area-content
     padding-left 0
     padding-right 0
+    position relative
 
   .title
     border-bottom 0
     padding 0 0 15px
 
   .glide-nav
-    position absolute
-    top -48px
-    left 205px
-    width 80px
-    height 35px
-
     button
-      opacity 1
+      opacity .4
+
+      &.prev-btn
+        left 0
+        right auto
+
+      &.next-btn
+        right 0
+        left auto
+
+      &:hover
+        opacity .9
+
+      &:active
+        opacity 1 !important
+
+  &:hover
+    .glide-nav
+      button
+        opacity 1
 
   .embla li
     padding 0 5px
 
   .embla li > a
-    background #fff
-    border-radius border-radius
-    padding 0 10px 15px
-
-    .img-wrapper
-      img
-        padding 10px 0
+    background transparent
+    border-radius 0
+    padding 0
 
 //RESPONSIVE
 @media only screen and (max-width: 576px)

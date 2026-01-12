@@ -28,6 +28,7 @@
                 <sub-category-tile
                   :category="value.category"
                   :sub-category="value"
+                  :index="index"
                 />
               </li>
             </template>

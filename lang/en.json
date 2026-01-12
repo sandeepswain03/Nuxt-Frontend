@@ -5,7 +5,7 @@
     "vouchers": "Vouchers",
     "myOrders": "My orders",
     "myWishlist": "My wishlist",
-    "comparedList": "Compared list"
+    "comparedList": "Comparison"
   },
   "trackOrder": {
     "estimatedDelivery": "Estimated delivery",
@@ -71,7 +71,6 @@
     "now": "now",
     "contactUs": "Love to hear from you",
     "feelFree": "Feel free to contact us. We will get back to as soon as we can."
-
   },
   "detailRight": {
     "details": "Details",
@@ -237,6 +236,8 @@
     "register": "Register",
     "profile": "Profile",
     "orders": "Orders",
+    "wishList": "Wish List",
+    "comparedList": "Comparison",
     "vouchers": "Vouchers",
     "logout": "Logout",
     "cart": "Cart",
@@ -246,7 +247,14 @@
     "brands": "Brands",
     "hotDeals": "Hot Deals",
     "wishList": "Wish List",
-    "comparedList": "Compared List"
+    "comparedList": "Comparison"
+  },
+  "bottomNav": {
+    "home": "Home",
+    "orders": "Orders",
+    "wishList": "Wish List",
+    "comparedList": "Comparison",
+    "vouchers": "Vouchers"
   },
   "empty": {
     "welcome": "Welcome to {name}",
@@ -408,7 +416,6 @@
     "mail": "Mail",
     "helpline": "Helpline",
     "shortPeriod": "With a short period of time",
-
     "subscribeNewsletter": "Subscribe to our Newsletter",
     "getLatestEmail": "Get our latest update in your email",
     "subscribe": "Subscribe",
@@ -424,7 +431,7 @@
     "find": "Find product suitable for you",
     "stock": "Buy hundreds of products from the infinity stock"
   },
-  "payment":  {
+  "payment": {
     "paypal": "Pay with Paypal",
     "flutterwave": "Pay with Flutterwave",
     "stripe": "Pay with Stripe",

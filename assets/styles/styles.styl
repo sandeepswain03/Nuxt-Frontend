@@ -1,4 +1,5 @@
 @import "variables.styl"
+@import "bottom-navigation.styl"
 @import "base.styl"
 @import "grid.styl"
 @import "common.styl"
@@ -505,6 +506,58 @@ img[data-src] {
     flex: 0 0 33.33%;
   }
 
+  // Fix product card dimensions in Featured/Trending products
+  .area .embla__container li
+    .p-tile.product-card-new
+      .product-image-section
+        height 120px
+
+      .product-image
+        padding 12px
+
+      .product-info-section
+        padding 6px
+        gap 6px
+
+        .product-title
+          font-size 14px
+
+        .product-price-section
+          .current-price
+            font-size 14px
+
+          .prev-price
+            font-size 12px
+
+        .product-rating-section
+          .rating-info
+            .star-icon
+              width 14px
+              height 14px
+
+            .rating-value,
+            .rating-count
+              font-size 12px
+
+          .sold-count
+            font-size 12px
+
+      .product-actions-section
+        padding 6px
+        gap 8px
+
+        .add-to-cart-btn
+          width 36px
+          height 36px
+
+          svg
+            width 18px
+            height 18px
+
+        .buy-now-btn
+          padding 8px
+          font-size 12px
+
   #cart-pop-over
     top unset
 
@@ -530,7 +583,7 @@ img[data-src] {
   }
   
   .embla__container li {
-    flex: 0 0 100%;
+    flex: 0 0 50%;
   }
 
   .flash-slider .embla__container li,
@@ -539,6 +592,58 @@ img[data-src] {
   .category-wrapper .embla__container li {
     flex: 0 0 50%;
   }
+
+  // Fix product card dimensions in Featured/Trending products for mobile
+  .area .embla__container li
+    .p-tile.product-card-new
+      .product-image-section
+        height 100px
+
+      .product-image
+        padding 10px
+
+      .product-info-section
+        padding 5px
+        gap 5px
+
+        .product-title
+          font-size 12px
+
+        .product-price-section
+          .current-price
+            font-size 13px
+
+          .prev-price
+            font-size 11px
+
+        .product-rating-section
+          .rating-info
+            .star-icon
+              width 12px
+              height 12px
+
+            .rating-value,
+            .rating-count
+              font-size 11px
+
+          .sold-count
+            font-size 11px
+
+      .product-actions-section
+        padding 5px
+        gap 6px
+
+        .add-to-cart-btn
+          width 32px
+          height 32px
+
+          svg
+            width 16px
+            height 16px
+
+        .buy-now-btn
+          padding 6px
+          font-size 11px
 
   main
     padding-top calc(230px + 6%)

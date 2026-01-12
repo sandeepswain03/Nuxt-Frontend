@@ -24,6 +24,9 @@
       <slot/>
     </main>
     <CommonFooter/>
+    <client-only>
+      <BottomNavigation/>
+    </client-only>
 
     <transition name="fade" mode="out-in">
       <ToastMessage
@@ -60,6 +63,7 @@
   import {useCommonStore} from "~/store/common";
   import {useMetaData} from "~/composables/useMetaData";
   import {useConstants} from "~/composables/useConstants";
+  import BottomNavigation from "~/components/BottomNavigation.vue";
 
   const userStore = useUserStore();
   const {profile} = storeToRefs(userStore);

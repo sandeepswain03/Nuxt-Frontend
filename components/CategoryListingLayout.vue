@@ -49,6 +49,7 @@
                 :key="index"
                 :sub-category="value"
                 :category="subCategoriesMap[value.id]"
+                :index="index"
               />
             </div>
 

@@ -123,18 +123,18 @@
 
         <div class="right-area flex gap-15 right">
 
-          <div class="pos-rel"
+          <div class="pos-rel account-dropdown-wrapper"
                v-outside-click="closeDropdown"
           >
             <button
               aria-label="submit"
-              class="flex gap-10"
+              class="flex gap-10 account-dropdown-btn"
               @click.prevent="toggleDropdown"
             >
               {{ $t('header.account') }}
               <i class="icon arrow-down black"/>
             </button>
-            <div class="dropdown"
+            <div class="dropdown account-dropdown"
                  :class="{active: showDropdown}"
             >
               <nuxt-link to="/user/orders"
@@ -318,11 +318,19 @@
   });
 
   const headerLeft = computed(() => {
-    return headerLinks.value?.left || [];
+    const links = headerLinks.value?.left || [];
+    return links.filter(link => {
+      const url = getUrl(link);
+      return url !== '/flash-sale' && !url.startsWith('/flash-sale/');
+    });
   });
 
   const headerRight = computed(() => {
-    return headerLinks.value?.right || [];
+    const links = headerLinks.value?.right || [];
+    return links.filter(link => {
+      const url = getUrl(link);
+      return url !== '/flash-sale' && !url.startsWith('/flash-sale/');
+    });
   });
 
   const isPublic = computed(() => {

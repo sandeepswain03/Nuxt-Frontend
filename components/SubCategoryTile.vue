@@ -1,19 +1,22 @@
 <template>
   <nuxt-link
-    class="block page-link"
+    class="category-card-link"
     :to="categoryLink(subCategory)"
     :title="subCategory.title"
   >
-    <div class="img-wrapper">
-      <ImageLazy
-        :lazy-src="thumbImageURL(subCategory)"
-        :title="subCategory.title"
-        :alt="subCategory.title"
-      />
+    <div class="category-card" :class="`category-card-bg-${getColorIndex}`">
+      <div class="category-image-wrapper">
+        <ImageLazy
+          :lazy-src="thumbImageURL(subCategory)"
+          :title="subCategory.title"
+          :alt="subCategory.title"
+          class="category-image"
+        />
+      </div>
+      <div class="category-title">
+        {{ subCategory.title }}
+      </div>
     </div>
-    <h5 class="item-title ellipsis ellipsis-1">
-      {{ subCategory.title }}
-    </h5>
   </nuxt-link>
 </template>
 
@@ -36,6 +39,10 @@
           return null
         },
       },
+      index: {
+        type: Number,
+        default: 0
+      },
     },
     data() {
       return {
@@ -46,6 +53,10 @@
     },
     mixins: [util],
     computed: {
+      getColorIndex() {
+        // Cycle through 10 different colors
+        return this.index % 10
+      }
     },
     mounted() {
     },
