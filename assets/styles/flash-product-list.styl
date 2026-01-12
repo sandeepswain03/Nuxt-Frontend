@@ -1,0 +1,32 @@
+@import "variables.styl"
+
+.flash-list
+  .tile-container
+    margin-top 20px
+    gap 20px
+    
+    .p-tile
+      width calc(16.66% - (100px / 6))
+      min-width calc(16.66% - (100px / 6))
+      margin-bottom 0
+
+  & > .pos-rel
+    min-height 700px
+
+// RESPONSIVE
+@media only screen and (max-width: 992px)
+  .flash-list
+    .tile-container
+      .p-tile
+        width calc(33.33% - (40px / 3))
+        min-width calc(33.33% - (40px / 3))
+
+@media only screen and (max-width: 768px)
+  .flash-list
+      .tile-container
+        gap 15px
+        
+        .p-tile
+          width calc(50% - 7.5px)
+          min-width calc(50% - 7.5px)
+
