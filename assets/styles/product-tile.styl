@@ -64,7 +64,7 @@
       height 100%
       object-fit contain
       transition transform 0.5s ease
-      padding 20px
+      padding 10px
 
     .product-card-inner:hover .product-image
       transform scale(1.1)
@@ -97,8 +97,9 @@
       opacity 0
       z-index 2
 
-      @media (max-width: 640px)
+      @media (max-width: 768px)
         display flex
+        opacity 1
 
       .wishlist-icon
         width 24px
@@ -321,53 +322,55 @@
 @media only screen and (max-width: 768px)
   .p-tile.product-card-new
     .product-image-section
-      height 120px
+      height 144px
 
       .product-image
-        padding 12px
+        padding 8px
 
     .product-info-section
-      padding 6px
-      gap 6px
+      padding 8px
+      gap 8px
 
       .product-title
-        font-size 14px
+        font-size 16px
+        font-weight 400
 
       .product-price-section
         .current-price
-          font-size 14px
+          font-size 16px
+          font-weight 700
 
         .prev-price
-          font-size 12px
+          font-size 14px
 
       .product-rating-section
         .rating-info
           .star-icon
-            width 14px
-            height 14px
+            width 16px
+            height 16px
 
           .rating-value,
           .rating-count
-            font-size 12px
+            font-size 14px
 
         .sold-count
-          font-size 12px
+          font-size 14px
 
     .product-actions-section
-      padding 6px
-      gap 8px
+      padding 8px
+      gap 12px
 
       .add-to-cart-btn
-        width 36px
-        height 36px
+        width 40px
+        height 40px
 
         svg
-          width 18px
-          height 18px
+          width 20px
+          height 20px
 
       .buy-now-btn
-        padding 8px
-        font-size 12px
+        padding 10px
+        font-size 14px
 
   .user-compared  .tile-container
   .user-wishlists  .tile-container
@@ -388,50 +391,52 @@
 
   .p-tile.product-card-new
     .product-image-section
-      height 100px
+      height 144px
 
       .product-image
-        padding 10px
+        padding 8px
 
     .product-info-section
-      padding 5px
-      gap 5px
+      padding 8px
+      gap 8px
 
       .product-title
-        font-size 12px
+        font-size 16px
+        font-weight 400
 
       .product-price-section
         .current-price
-          font-size 13px
+          font-size 16px
+          font-weight 700
 
         .prev-price
-          font-size 11px
+          font-size 14px
 
       .product-rating-section
         .rating-info
           .star-icon
-            width 12px
-            height 12px
+            width 16px
+            height 16px
 
           .rating-value,
           .rating-count
-            font-size 11px
+            font-size 14px
 
         .sold-count
-          font-size 11px
+          font-size 14px
 
     .product-actions-section
-      padding 5px
-      gap 6px
+      padding 8px
+      gap 12px
 
       .add-to-cart-btn
-        width 32px
-        height 32px
+        width 40px
+        height 40px
 
         svg
-          width 16px
-          height 16px
+          width 20px
+          height 20px
 
       .buy-now-btn
-        padding 6px
-        font-size 11px
+        padding 10px
+        font-size 14px
