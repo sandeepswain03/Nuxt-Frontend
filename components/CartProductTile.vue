@@ -319,7 +319,8 @@
   });
 
   const maxQuantity = computed(() => {
-    return parseInt(productInventory.value?.quantity)
+    const quantity = parseInt(productInventory.value?.quantity || 0);
+    return quantity > 0 ? quantity : 0;
   });
 
   const productQuantity = computed(() => {

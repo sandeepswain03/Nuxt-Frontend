@@ -584,7 +584,8 @@
     useCartHelper({product, productInventory: selectedInventoryForCart, emit: cartEmit});
 
   const maxQuantity = computed(() => {
-    return parseInt(selectedInventory.value?.quantity || 0);
+    const quantity = parseInt(selectedInventory.value?.quantity || 0);
+    return quantity > 0 ? quantity : 0;
   });
 
   const quantityChanged = (evt) => {
@@ -761,13 +762,22 @@
 
   const isInStock = computed(() => {
     if (optionChange.value) {
-      return productInventory.value?.quantity > 0
+      // When attributes are selected, check the selected inventory quantity
+      const inventoryQuantity = parseInt(productInventory.value?.quantity || 0);
+      return inventoryQuantity > 0;
     }
 
+    // Use in_stock from API if available, otherwise check if any inventory has stock
     if (product.value.in_stock !== undefined) {
-      return product.value.in_stock
+      return product.value.in_stock === true;
     }
-    return true
+    
+    // Fallback: check if any inventory has quantity > 0
+    if (product.value?.inventory && product.value.inventory.length > 0) {
+      return product.value.inventory.some(inv => parseInt(inv?.quantity || 0) > 0);
+    }
+    
+    return true; // Default to in stock if no inventory data
   });
 
   const inStock = computed(() => {

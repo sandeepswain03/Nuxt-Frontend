@@ -249,7 +249,11 @@
       return navigateTo('/login');
     }
     
-    if (!product.value?.in_stock) {
+    // Check stock status - use in_stock from API or check inventory quantity
+    const inventoryQuantity = parseInt(inventoryRef.value?.quantity || 0);
+    const isProductInStock = product.value?.in_stock !== false && (product.value?.in_stock === true || inventoryQuantity > 0);
+    
+    if (!isProductInStock) {
       setToastError(t('detailRight.outOfStock'));
       return;
     }
@@ -269,7 +273,11 @@
       return navigateTo('/login');
     }
 
-    if (!product.value?.in_stock) {
+    // Check stock status - use in_stock from API or check inventory quantity
+    const inventoryQuantity = parseInt(inventoryRef.value?.quantity || 0);
+    const isProductInStock = product.value?.in_stock !== false && (product.value?.in_stock === true || inventoryQuantity > 0);
+    
+    if (!isProductInStock) {
       setToastError(t('detailRight.outOfStock'));
       return;
     }

@@ -84,7 +84,11 @@ export function useCartHelper({product, productInventory, emit}) {
             quantity: null
         };
 
-        if (!product.value?.in_stock) {
+        // Check stock status - use in_stock from API or check inventory quantity
+        const inventoryQuantity = parseInt(productInventory.value?.quantity || 0);
+        const isProductInStock = product.value?.in_stock !== false && (product.value?.in_stock === true || inventoryQuantity > 0);
+        
+        if (!isProductInStock) {
             setToastError(t('detailRight.outOfStock'))
             return false
         }
@@ -101,8 +105,8 @@ export function useCartHelper({product, productInventory, emit}) {
             return false
         }
 
-        if (productInventory.value.quantity < quantity.value) {
-
+        // Check if requested quantity exceeds available inventory
+        if (inventoryQuantity < quantity.value) {
             cartError.value.quantity = t('detailRight.exceedsInventory')
             emitCartError()
             return false
